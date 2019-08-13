@@ -1,0 +1,48 @@
+#!/bin/sh
+# add the path to run exiftime
+export PATH=$PATH:/courses/courses/cscb09w19/bin/
+# if the number of inputs is zero send error message saying that no directory was given
+if test $# = 0
+then 
+	echo "no directory given please input a directory">&2
+	exit
+# if the input size is greater than 1 then send a message saying there are too many directories
+elif test $# -gt 1
+then 
+	echo "Too many directories, only one is allowed">&2
+	exit
+#if the given input is not a proper directory then send a message saying so
+elif [ ! -d $1 ] 
+then 
+	echo "input is not a proper directory">&2
+	exit
+fi
+# loop through all the files in the directory
+for i in "$1"/*
+do
+	# get the name of the file
+    img_name=$(echo $i | cut -d "/" -f 2 )
+	if [ `file -b "$i" | cut -c -4` = "JPEG" ]
+	then
+		#check to see if it has exiftime data
+		img_data=$(exiftime -tg "$i")
+		# if if did not the runan error message saying so
+		if [ $? -ne  0 ]
+		then
+			echo "No exif data found">&2
+		# get the name of the file
+		img_name=$(echo $i | cut -d "/" -f 2 )
+		else
+			#get the year a+nd month from the file
+			year=$(echo $img_data | cut -d : -f 2 | cut -d " " -f 2)
+			month=$(echo $img_data| cut -d : -f 3)
+			# make the directory to store the files
+			mkdir -p "$year/$month"
+			# move the file into the directory
+	       	mv -f "$i" "$year"/"$month"/"$img_name"
+		fi
+	else
+		# add an error message to state that the file is not a jpeg
+		echo "$img_name is not a jpeg, cannot be sorted">&2
+	fi
+done

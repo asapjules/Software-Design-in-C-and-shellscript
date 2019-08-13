@@ -1,0 +1,22 @@
+add_group instructors
+add_group friends
+add_group a
+list_users instructors
+add_user instructors z
+add_user instructors pancer 
+add_user instructors nizam
+add_user instructors a
+add_user instructors b
+add_user instructors c
+remove_user instructors c
+list_users instructors
+user_balance instructors pancer
+under_paid instructors
+add_xct instructors pancer 65
+list_users instructors
+add_xct instructors nizam 12
+list_users instructors
+add_xct instructors pancer 65
+add_xct instructors pancer 130
+remove_user instructors pancer
+recent_xct instructors 40

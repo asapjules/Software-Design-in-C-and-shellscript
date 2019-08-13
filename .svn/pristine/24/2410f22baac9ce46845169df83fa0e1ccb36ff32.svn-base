@@ -1,0 +1,45 @@
+#!/bin/bash
+# check to see if no input is given
+if [ $# -eq 0 ]
+# print error message if so
+then
+	echo "No arguments given, cannot generate table">&2
+^30	exit
+fi
+#print to stdout the first part of the html file
+if [ $1 -lt 0 ]
+then
+	echo "invalid number of columns, must be at least 1">&2
+	exit
+fi
+col_num = $1
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+echo '<html>'
+echo '  <head>'
+echo '    <title>Picture<title>'
+echo '  </head>'
+echo '  <body>'
+echo '    <h1>Pictures</h1>'
+echo '<table>'
+#loop through everything in the 
+shift
+col_count=0
+for i in $@
+do
+	if [ `file -b "pictures/$1" | cut -c -4` = "JPEG" ]
+	then
+		echo '<tr>'
+		echo '<td><img src = "pictures/'$i'height=100></td>'
+			echo '</tr>'
+		$col_count = `expr $col_count + 1`
+		if test $col_count -eq $col_num
+		then
+			$col_count=0
+			echo '</tr>'
+		fi
+	else
+		echo "This file is not a JPEG, cannot be added to table">&2
+	fi
+done
+echo ' </table>'
+echo '</body> </html>'

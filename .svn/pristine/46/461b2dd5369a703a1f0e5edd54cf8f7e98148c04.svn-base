@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <dirent.h>
+#include "freq_list.h"
+#include "worker.h"
+
+/* The function get_word should be added to this file */
+FreqRecord get_word(Node *head, char *word, char **filename){
+		FreqRecord *frequencyRecord = malloc(MAXFILES * sizeof(FreqRecord));
+		if frequencyRecord == NULL{
+			perror("malloc");
+		exit};
+		Node *current = head;
+		int index = 0;
+		int indexoffrqrec = 0;
+		while current != NULL{
+			if (strcmp(current -> word , word) == 0){
+				while(index < MAXFILES){
+					if (current -> freq[index] == 0){
+					index++};
+					else{
+						FreqRecords freqrecords = malloc(sizeof(FreqRecord));
+						if freqrecords == NULL{
+							perror("malloc");
+						}
+						// input the needed information and increment the checkers
+						freqrecords -> freq = current -> freq[index];
+						strcpy(freqrecords -> filename, filename[index]);
+						frequencyRecord[indexoffrqrec] = freqrecords;
+						indexoffrqrec++;
+						index++;
+					}
+			}
+		}
+		else{
+			current = current -> next;
+			}
+		}
+		return frequencyRecord
+}
+
+/* Print to standard output the frequency records for a word.
+* Used for testing.
+*/
+void print_freq_records(FreqRecord *frp) {
+	int i = 0;
+	while(frp != NULL && frp[i].freq != 0) {
+		printf("%d    %s\n", frp[i].freq, frp[i].filename);
+		i++;
+	}
+}
+
+/* run_worker
+* - load the index found in dirname
+* - read a word from the file descriptor "in"
+* - find the word in the index list
+* - write the frequency records to the file descriptor "out"
+*/
+void run_worker(char *dirname, int in, int out){
+	
+	
+
+}
+
+

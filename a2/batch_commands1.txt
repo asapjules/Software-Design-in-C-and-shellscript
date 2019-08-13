@@ -1,0 +1,26 @@
+add_group Group1
+add_user Group1 1
+add_user Group1 2
+add_user Group1 3
+add_user Group1 4
+add_user Group1 5
+add_xct Group1 5 500
+add_xct Group1 1 400
+list_users Group1
+add_xct Group1 4 300
+list_users Group1
+add_xct Group1 2 200
+list_users Group1
+add_xct Group1 4 -200
+list_users Group1
+add_xct Group1 5 -500
+list_users Group1
+add_xct Group1 3 -1000000
+list_users Group1
+remove_user Group1 1
+list_users Group1
+remove_user Group1 3
+list_users Group1
+remove_user Group1 4
+list_users Group1
+quit

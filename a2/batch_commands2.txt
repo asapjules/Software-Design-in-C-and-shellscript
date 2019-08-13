@@ -1,0 +1,67 @@
+add_group one
+add_group two
+add_group three
+add_group four
+list_groups
+add_group one
+list_groups
+add_group three
+list_groups
+add_group four
+list_groups
+add_user one a
+add_user one b
+add_user one c
+add_user one d
+list_users one
+user_balance one a
+user_balance one b
+user_balance one c
+user_balance one d
+under_paid one
+list_users two
+under_paid two
+remove_user one c
+list_users one
+remove_user one d
+list_users one
+remove_user one a
+list_users one
+remove_user one b
+list_users one
+add_user one a
+add_user one b
+add_user one c
+add_user one d
+add_xct one b 4.20
+add_xct one b 11.2
+user_balance one b
+list_users one
+under_paid one
+add_xct one d 10
+user_balance one d
+list_users one
+under_paid one
+add_xct one c 11
+add_xct one c 13
+user_balance one c
+list_users one
+under_paid one
+add_xct one d 32
+user_balance one d
+list_users one
+add_xct one a 10
+add_xct one a 11
+user_balance one a
+list_users one
+under_paid one
+recent_xct one 10
+remove_user one d
+recent_xct one 10
+remove_user one c
+recent_xct one 10
+remove_user one b
+recent_xct one 10
+remove_user one a
+recent_xct one 10
+quit

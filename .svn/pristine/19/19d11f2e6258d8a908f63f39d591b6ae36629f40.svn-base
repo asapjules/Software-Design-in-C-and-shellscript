@@ -1,0 +1,89 @@
+#!bin/sh
+# of the number of inputs is 0  print error message 
+if [ $# -eq 0 ]
+then
+	echo "Invalid input, must have a column number and a directory">&2
+	exit
+# if the number of inputs  is two check to see if the first input is a number
+elif [ $# -eq 2 ]
+# if not then there print an error message
+then
+	if ! echo $1 | grep -Eq '^[0-9]+$'
+        then
+                echo "First argument must be a number">&2
+                exit
+        else
+        	col_num=$1
+	fi
+# if there are more than 2 parameters then print the error message
+elif [ $# -gt 2 ]
+then
+	echo "To many parameters, only 2 may be used">&2
+fi
+# print the html file as according to the assignment
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+echo '<html>'
+echo '  <head>'
+echo '    <title>Pictures</title>'
+echo ' '
+echo '  </head>'
+echo '  <body>'
+echo '  <h1>Pictures</h1>'
+echo ' '
+# have a counter for the number of columns
+col_count=0
+#check to see if the second input is a directory
+if [ -d "$2" ]
+then
+	# for each item in the directory, check to see which are years
+	for year in "$2"/*
+	do
+		if [ -d "$year" ]
+		then
+			# format the year so that it is only numbers
+			year_formatted=$(echo $year | cut -c 3-)
+			# 
+			if echo "$year_formatted" | grep -Eq '^[0-9][0-9][0-9][0-9]$'
+			then
+				echo "<h2>$year_formatted<h2>"
+				echo "<table>"
+				echo "  <tr>"
+				#check each item in the year folder
+				for month in "$year"/*
+				do
+					#if the current item is a directory
+					if [ -d  "$month" ]
+					then
+						month_formatted=$(echo $month | cut -d "/" -f 3)
+						# check  to see that the name has 2 numbers only 
+						if echo $month_formatted | grep -Eq '^[0-9][0-9]$'
+						then
+							for img in "$month"/*
+							do
+								if [ `file -b "$img" | cut -d " " -f 1` = "JPEG" ]
+								then
+									img_formatted=$(echo $img | cut -d "/" -f 4)
+									echo '<td><img src='$year_formatted/$month_formatted/$img_formatted 'height=100></td>'
+									col_count=$(($col_count+1))
+									if [ $col_count = $col_num ]
+									then
+										$col_count=0
+										echo  "  </tr>"
+									fi
+								else
+									echo "$img is not a JPEG, cannot be added to table"
+								fi
+							done
+						fi
+					fi
+				done
+				echo "<table>"
+			fi
+
+		fi
+	done
+else 
+	echo "no directory inputted, please use an actuall directory"
+fi
+echo '</body>'
+echo '</html>'
